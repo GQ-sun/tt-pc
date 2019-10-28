@@ -5,6 +5,8 @@ import Login from '@/views/login'
 import Home from '@/views/home'
 import Welcome from '@/views/welcome'
 import NotFind from '@/views/404'
+
+import local from '@/utils/local'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [{
@@ -15,5 +17,17 @@ const router = new VueRouter({
     component: Home,
     children: [{ path: '/', component: Welcome }]
   }, { path: '*', component: NotFind }]
+})
+router.beforeEach((to, from, next) => {
+  const user = local.getUser()
+  if (user && user.token) {
+    next()
+  } else {
+    if (to.path === '/login') {
+      next()
+    } else {
+      next('/login')
+    }
+  }
 })
 export default router
