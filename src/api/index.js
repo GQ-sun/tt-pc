@@ -10,7 +10,7 @@ axios.interceptors.request.use(config => {
   config.headers.Authorization = `Bearer ${user.token}`
 
   return config
-}, function (error) {
+}, (error) => {
   // 对请求错误做些什么
   return Promise.reject(error)
 })
@@ -19,7 +19,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
   // 对响应数据做点什么
   return response
-}, function (error) {
+}, (error) => {
   // 对响应错误做点什么  获取状态码  判断是不是401  如果是 跳转登录页面
   if (error.response.status === 401) {
     return router.push('/login')
