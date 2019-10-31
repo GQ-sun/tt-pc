@@ -86,20 +86,15 @@ export default {
     toggleMenu () {
       this.isOpen = !this.isOpen
     },
-    // setting () {
-    //   this.$router.push('/setting')
-    // },
-    // logout () {
-    //   local.delUser()
-    //   this.$router.push('/login')
-    // },
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      local.delUser()
+      this.$router.push('/login')
+    },
     handleClick (command) {
-      if (command === 'setting') {
-        this.$router.push('/setting')
-      } else if (command === 'logout') {
-        local.delUser()
-        this.$router.push('/login')
-      }
+      this[command]()
     }
   }
 }
