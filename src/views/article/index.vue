@@ -19,14 +19,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <el-select v-model="reqParams.channel_id" placeholder="请选择" clearable>
-            <el-option
-              v-for="item in channelOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+          <!-- 频道组件 -->
+          <my-channel v-model="reqParams.channel_id"></my-channel>
         </el-form-item>
         <el-form-item label="日期：">
           <el-date-picker
@@ -109,7 +103,7 @@ export default {
       // 使用axios提交数据时候  如果数据的值为null是不会提交该字段
       reqParams: {
         status: null,
-        channel_id: null,
+        channel_id: 4,
         begin_pubdate: null,
         end_pubdate: null,
         // 当前页码,每一页显示条数
@@ -130,17 +124,9 @@ export default {
     }
   },
   created () {
-    this.getChannels()
     this.getArticles()
   },
   methods: {
-    // 获取频道
-    async getChannels () {
-      const {
-        data: { data }
-      } = await this.$http.get('channels')
-      this.channelOptions = data.channels
-    },
     // 获取文章列表数据
     // 第一种： axios.get(url?key=value&key1=vaule1&...) get传参
     // 第二种： axios.get(url, {params:参数对象})
