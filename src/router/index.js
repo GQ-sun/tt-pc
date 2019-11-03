@@ -8,6 +8,7 @@ import NotFind from '@/views/404'
 import Article from '@/views/article'
 import Image from '@/views/image'
 import local from '@/utils/local'
+import Publish from '@/views/publish'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [{
@@ -16,7 +17,7 @@ const router = new VueRouter({
   }, {
     path: '/',
     component: Home,
-    children: [{ path: '/', component: Welcome }, { path: '/article', component: Article }, { path: '/image', component: Image }]
+    children: [{ path: '/', component: Welcome }, { path: '/article', component: Article }, { path: '/image', component: Image }, { path: '/publish', component: Publish }]
   }, { path: '*', component: NotFind }]
 })
 router.beforeEach((to, from, next) => {
