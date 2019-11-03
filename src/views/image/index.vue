@@ -12,12 +12,7 @@
           <el-radio-button :label="true">收藏</el-radio-button>
         </el-radio-group>
         <!-- 按钮 添加素材-->
-        <el-button
-          type="success"
-          size="small"
-          style="float:right"
-          @click="dialogVisible = true"
-        >添加素材</el-button>
+        <el-button type="success" size="small" style="float:right" @click="open">添加素材</el-button>
         <!-- 图片列表 -->
         <div class="img_list">
           <!-- 每一个素材块 -->
@@ -34,7 +29,9 @@
             </div>
           </div>
         </div>
+        <!-- 分页功能 -->
         <el-pagination
+          v-if="total>reqParams.per_page"
           background
           layout="prev, pager, next"
           :total="total"
@@ -52,10 +49,11 @@
           <!-- 上传组件 -->
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"
+            :headers="headers"
             :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
+            :on-success="handleImg"
+            name="image"
           >
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -67,6 +65,7 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     return {
@@ -81,7 +80,13 @@ export default {
       // 总条数
       total: 0,
       // 对话框是否显示
-      dialogVisible: false
+      dialogVisible: false,
+      // 预览图片地址
+      imageUrl: '',
+      // 请求头部
+      headers: {
+        Authorization: `Bearer ${local.getUser().token}`
+      }
     }
   },
   created () {
@@ -129,6 +134,21 @@ export default {
         this.getImages()
         this.$message.success('删除成功')
       })
+    },
+    // 点击添加素材
+    open () {
+      this.dialogVisible = true
+      this.imageUrl = null
+    },
+    // 添加素材请求成功处理函数
+    handleImg (res) {
+      this.imageUrl = res.data.url
+      this.$message.success('上传成功')
+      window.setTimeout(() => {
+        // 自动关闭对话框,更新列表数据
+        this.dialogVisible = false
+        this.getImages()
+      }, 2000)
     }
   }
 }
