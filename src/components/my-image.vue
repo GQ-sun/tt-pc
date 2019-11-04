@@ -2,7 +2,7 @@
   <div class="my-image">
     <!-- 按钮 -->
     <div class="btn_box" @click="open">
-      <img src="../assets/default.png" />
+      <img :src="value||btnImg" />
     </div>
     <!-- 对话框 -->
     <el-dialog :visible.sync="dialogVisible" width="700px">
@@ -50,14 +50,14 @@
             :on-success="handleImg"
             name="image"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <img v-if="uploadImg" :src="uploadImg" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-tab-pane>
       </el-tabs>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="confirmImg">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -65,7 +65,9 @@
 
 <script>
 import local from '@/utils/local'
+import defaultImg from '../assets/default.png'
 export default {
+  props: ['value'],
   data () {
     return {
       dialogVisible: false,
@@ -86,14 +88,19 @@ export default {
       headers: {
         Authorization: `Bearer ${local.getUser().token}`
       },
-      // 预览图片地址
-      imageUrl: ''
+      // 上传预览图片地址
+      uploadImg: '',
+      // 按钮图片
+      btnImg: defaultImg
     }
   },
   methods: {
     //   对话框打开
     open () {
       this.dialogVisible = true
+      this.selectedImgUrl = null
+      this.uploadImg = null
+
       // 加载素材列表
       this.getImages()
     },
@@ -121,15 +128,32 @@ export default {
     },
     // 添加素材请求成功处理函数
     handleImg (res) {
-      this.imageUrl = res.data.url
-      this.$message.success('上传成功')
-      window.setTimeout(() => {
-        // 自动关闭对话框,更新列表数据
-        this.dialogVisible = false
-        this.getImages()
-        // 清空预览图
-        this.imageUrl = null
-      }, 2000)
+      this.uploadImg = res.data.url
+    },
+    // 确认上传图片
+    confirmImg () {
+      // 判断activeName
+      if (this.activeName === 'image') {
+        if (this.selectedImgUrl) {
+          // this.btnImg = this.selectedImgUrl
+          // 提交给父组件
+          this.$emit('input', this.selectedImgUrl)
+          this.dialogVisible = false
+        } else {
+          // 提示
+          this.$message.warning('请选择一张图片')
+        }
+      } else if (this.activeName === 'upload') {
+        if (this.uploadImg) {
+          // this.btnImg = this.uploadImg
+          // 提交给父组件
+          this.$emit('input', this.uploadImg)
+          this.dialogVisible = false
+        } else {
+          // 提示
+          this.$message.warning('请上传一张图片')
+        }
+      }
     }
   }
 }

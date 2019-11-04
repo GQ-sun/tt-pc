@@ -21,12 +21,12 @@
   height: 178px;
   display: block;
 }
-.ql-editor {
+.quill-editor .ql-editor {
   height: 300px;
 }
-.ql-toolbar.ql-snow {
+.quill-editor .ql-toolbar.ql-snow {
   padding: 0 8px;
 }
-.el-dialog__body {
+.container-publish .el-dialog__body {
   padding-bottom: 0;
 }

@@ -103,7 +103,7 @@ export default {
       // 使用axios提交数据时候  如果数据的值为null是不会提交该字段
       reqParams: {
         status: null,
-        channel_id: 4,
+        channel_id: null,
         begin_pubdate: null,
         end_pubdate: null,
         // 当前页码,每一页显示条数
@@ -169,7 +169,7 @@ export default {
     },
     // 编辑事件
     toEdit (id) {
-      this.$router.push({ path: 'publish', query: 'id' })
+      this.$router.push({ path: 'publish', query: { id } })
     },
     // 删除
     async del (id) {
