@@ -9,6 +9,7 @@ import Article from '@/views/article'
 import Image from '@/views/image'
 import local from '@/utils/local'
 import Publish from '@/views/publish'
+import Comment from '@/views/comment'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [{
@@ -17,7 +18,7 @@ const router = new VueRouter({
   }, {
     path: '/',
     component: Home,
-    children: [{ path: '/', component: Welcome }, { path: '/article', component: Article }, { path: '/image', component: Image }, { path: '/publish', component: Publish }]
+    children: [{ path: '/', component: Welcome }, { path: '/article', component: Article }, { path: '/image', component: Image }, { path: '/publish', component: Publish }, { path: '/comment', component: Comment }]
   }, { path: '*', component: NotFind }]
 })
 router.beforeEach((to, from, next) => {
