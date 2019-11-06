@@ -11,6 +11,7 @@ import local from '@/utils/local'
 import Publish from '@/views/publish'
 import Comment from '@/views/comment'
 import Setting from '@/views/setting'
+import Fans from '@/views/fans'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [{
@@ -19,7 +20,7 @@ const router = new VueRouter({
   }, {
     path: '/',
     component: Home,
-    children: [{ path: '/', component: Welcome }, { path: '/article', component: Article }, { path: '/image', component: Image }, { path: '/publish', component: Publish }, { path: '/comment', component: Comment }, { path: '/setting', component: Setting }]
+    children: [{ path: '/', component: Welcome }, { path: '/article', component: Article }, { path: '/image', component: Image }, { path: '/publish', component: Publish }, { path: '/comment', component: Comment }, { path: '/setting', component: Setting }, { path: '/fans', component: Fans }]
   }, { path: '*', component: NotFind }]
 })
 router.beforeEach((to, from, next) => {
