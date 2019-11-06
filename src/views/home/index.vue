@@ -70,17 +70,29 @@
 
 <script>
 import local from '@/utils/local'
+import eventBus from '@/eventBus'
 export default {
   data () {
     return {
       isOpen: true,
-      userInfo: {}
+      userInfo: {
+        name: '',
+        photo: ''
+      }
     }
   },
   created () {
     const user = local.getUser() || {}
     this.userInfo.name = user.name
     this.userInfo.photo = user.photo
+    // 接收更改过后的n用户名
+    eventBus.$on('updateName', name => {
+      this.userInfo.name = name
+    })
+    // 接收更改过后的头像
+    eventBus.$on('updatePhoto', photo => {
+      this.userInfo.photo = photo
+    })
   },
   methods: {
     toggleMenu () {
